@@ -1,0 +1,22 @@
+{
+  "name": "alexsuperstar/jsonmaker",
+  "description": "PHP JSON Maker",
+  "type": "library",
+  "version": "0.1",
+  "authors": [
+    {
+      "name": "Alexey Starikov",
+      "email": "alexsuperstar@mail.ru"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0"
+   
+  },
+  "autoload": {
+    "psr-4": {
+      "alexstar\\": "src/alexstar/"
+    }
+  },
+  "minimum-stability": "stable"
+}

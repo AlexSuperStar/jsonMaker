@@ -1,12 +1,12 @@
 # jsonMaker
 Create JSON easy
 
-Класс для создания и модификации текстовой JSON строки
+PHP класс для создания и модификации текстовой строки в формате JSON
 
 # Создание JSON
 
 ```Пример работы:
-$a = new \AS\jsonMaker();
+$a = new \alexstar\JsonMaker();
 $cc='xyz';
 $a->{$cc}->bbb->cccc[0]->xxx=5;
 $a->{$cc}->zz='qq';
@@ -20,14 +20,61 @@ echo $a;
 {"xyz":{"bbb":{"cccc":[{"xxx":5}]},"zz":"qq","zf":"qq"},"xx":{"zz":"qq"}}
  ```
  
- # Редактирование JSON
+# Редактирование JSON
  
+Исходный JSON
 ```
-$a = new \AS\jsonMaker('{"xyz":{"bbb":{"cccc":[{"xxx":5}]},"zz":"qq","zf":"qq"},"xx":{"zz":"qq"}}');
-$a->xyz->zf='123';
-$a->xyz->bbb->cccc[1]->yyy=6;
- ```
+{
+  "firstName": "Иван",
+  "lastName": "Иванов",
+  "address": {
+    "streetAddress": "Московское ш., 101, кв.101",
+    "city": "Ленинград",
+    "postalCode": 101101
+  },
+  "phoneNumbers": [
+    "812 123-1234",
+    "916 123-4567"
+  ]
+}
+```
+
+PHP код
+
+```
+<?php 
+$loader = require_once __DIR__ . '/vendor/autoload.php';
+$json = new \alexstar\JsonMaker('{"firstName":"Иван","lastName":"Иванов","address":{"streetAddress":"Московское ш., 101, кв.101","city":"Ленинград","postalCode":101101},"phoneNumbers":["812 123-1234","916 123-4567"]}');
+$json->firstName='Алексей';
+$dom='дом';
+$json->address->{$dom}=6;
+$json->address->code[]='123';
+$json->address->code[]='456';
+$json->phoneNumbers[2]='+7(123)1233-45-67';
+unset($json->address->city,$json->phoneNumbers[0]);
+echo $json;
+```
+
 Результат
+
 ```
-{"xyz":{"bbb":{"cccc":[{"xxx":5},{"yyy":6}]},"zz":"qq","zf":"123"},"xx":{"zz":"qq"}}
- ```
+{
+  "firstName": "Алексей",
+  "lastName": "Иванов",
+  "address": {
+    "streetAddress": "Московское ш., 101, кв.101",
+    "postalCode": 101101,
+    "дом": 6,
+    "code": [
+      "123",
+      "456"
+    ]
+  },
+  "phoneNumbers": {
+    "1": "916 123-4567",
+    "2": "+7(123)1233-45-67"
+  }
+}
+```
+
+PS: по поводу расходования памяти ничего сказать не могу, вроде все передается по ссылкам но я не уверен.
