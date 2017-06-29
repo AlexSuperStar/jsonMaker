@@ -2,6 +2,11 @@
 Create JSON easy
 
 PHP класс для создания и модификации текстовой строки в формате JSON
+# Установка 
+
+```
+composer require alexsuperstar/jsonmaker
+```
 
 # Создание JSON
 
