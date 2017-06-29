@@ -29,5 +29,5 @@ $a->xyz->bbb->cccc[1]->yyy=6;
  ```
 Результат
 ```
-{"xyz":{"bbb":{"cccc":[{"xxx":5}{"yyy":6}]},"zz":"qq","zf":"123"},"xx":{"zz":"qq"}}
+{"xyz":{"bbb":{"cccc":[{"xxx":5},{"yyy":6}]},"zz":"qq","zf":"123"},"xx":{"zz":"qq"}}
  ```
