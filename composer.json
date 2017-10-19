@@ -2,7 +2,7 @@
   "name": "alexsuperstar/jsonmaker",
   "description": "PHP JSON Maker",
   "type": "library",
-  "version": "0.1",
+  "version": "1.0.0",
   "authors": [
     {
       "name": "Alexey Starikov",
