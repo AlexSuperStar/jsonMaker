@@ -1,17 +1,14 @@
 # jsonMaker
 Create JSON easy
 
-*Read this in other languages: [English](README.en.md).*
-
-PHP класс для создания и модификации текстовой строки в формате JSON
-
-# Установка 
+PHP class for creating and modifying a text string in JSON format
+# Installation
 
 ```
 composer require alexsuperstar/jsonmaker
 ```
 
-# Создание JSON
+# Creating JSON
 
 ```php
 $a = new \alexstar\JsonMaker();
@@ -23,14 +20,14 @@ $a->xx->zz='qq';
 echo $a; 
 ```
 
-Результат
+Result
 ```
 {"xyz":{"bbb":{"cccc":[{"xxx":5}]},"zz":"qq","zf":"qq"},"xx":{"zz":"qq"}}
  ```
  
-# Редактирование JSON
- 
-Исходный JSON
+# Editing JSON
+ 
+Original JSON
 ```
 {
   "firstName": "Иван",
@@ -47,7 +44,7 @@ echo $a;
 }
 ```
 
-PHP код
+PHP code
 
 ```php
 <?php 
@@ -63,7 +60,7 @@ unset($json->address->city,$json->phoneNumbers[0]);
 echo $json;
 ```
 
-Результат
+Result
 
 ```
 {
@@ -85,4 +82,6 @@ echo $json;
 }
 ```
 
-PS: по поводу расходования памяти ничего сказать не могу, вроде все передается по ссылкам но я не уверен.
+PS: about the use of memory, I can not say anything, like everything is transmitted by links, but I'm not sure.
+
+Translated Google Translate
