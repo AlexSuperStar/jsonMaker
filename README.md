@@ -61,6 +61,7 @@ $json->address->code[]='456';
 $json->phoneNumbers[2]='+7(123)1233-45-67';
 unset($json->address->city,$json->phoneNumbers[0]);
 echo $json;
+echo 'code count: ',count($json->address->code);
 ```
 
 Результат
@@ -83,6 +84,8 @@ echo $json;
     "2": "+7(123)1233-45-67"
   }
 }
+code count: 2
 ```
+
 
 PS: по поводу расходования памяти ничего сказать не могу, вроде все передается по ссылкам но я не уверен.

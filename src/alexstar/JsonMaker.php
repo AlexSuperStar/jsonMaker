@@ -14,7 +14,7 @@ namespace alexstar;
  * echo $a; //{"xyz":{"bbb":{"cccc":[{"xxx":5}]},"zz":"qq","zf":"qq"},"xx":{"zz":"qq"}}
 */
 
-class JsonMaker implements \ArrayAccess, \IteratorAggregate
+class JsonMaker implements \ArrayAccess, \IteratorAggregate, \Countable
 {
     private $_data = [];
 
@@ -76,7 +76,13 @@ class JsonMaker implements \ArrayAccess, \IteratorAggregate
         unset($this->$name);
     }
 
-    # ArrayAccess
+    # Countable
+	  public function count()
+	  {
+		    return count($this->_data);
+	  }
+
+	# ArrayAccess
     public function offsetSet($offset, $value)
     {
         if (count(get_object_vars($this)) > 1) throw new \Exception('Property is not array');

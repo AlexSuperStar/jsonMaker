@@ -58,6 +58,7 @@ $json->address->code[]='456';
 $json->phoneNumbers[2]='+7(123)1233-45-67';
 unset($json->address->city,$json->phoneNumbers[0]);
 echo $json;
+echo 'code count: ',count($json->address->code);
 ```
 
 Result
@@ -80,6 +81,7 @@ Result
     "2": "+7(123)1233-45-67"
   }
 }
+code count: 2
 ```
 
 PS: about the use of memory, I can not say anything, like everything is transmitted by links, but I'm not sure.
