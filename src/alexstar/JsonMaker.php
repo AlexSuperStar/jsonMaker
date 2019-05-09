@@ -27,7 +27,7 @@ class JsonMaker implements \ArrayAccess, \IteratorAggregate, \Countable
 				if (json_last_error()) throw new \Exception(json_last_error_msg());
 				$this->parse($data);
 			}else{
-				$this->parse($str);
+				$this->parse(json_decode(json_encode($str)));
 			}
 		}
 	}
