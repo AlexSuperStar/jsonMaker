@@ -20,12 +20,21 @@ $a->{$cc}->bbb->cccc[0]->xxx=5;
 $a->{$cc}->zz='qq';
 $a->xyz->zf='qq';
 $a->xx->zz='qq';
-echo $a; 
+# Устанавливаем значение по пути
+$a('/zz/name','AlexStar');
+$a('/zz/groups',['Admin'])[1]="Super user";
+$a('/zz/address',['City'=>"Moscow"])->Streen="Bulvar";
+# запрос значения, вернет объект JsonMaker или null
+$street=$a('/zz/address/City');// Moscow
+$group0=$a('/zz/groups/0');// Admin
+$group1=$a('/zz/groups/1');// Super user
+var_dump($a('/zz/not_set')); // return null
+$a('/zz')->groups[0]; //Admin
 ```
 
 Результат
 ```
-{"xyz":{"bbb":{"cccc":[{"xxx":5}]},"zz":"qq","zf":"qq"},"xx":{"zz":"qq"}}
+{"xyz":{"bbb":{"cccc":[{"xxx":5}]},"zz":"qq","zf":"qq"},"xx":{"zz":"qq"},"zz":{"name":"AlexStar","groups":["Admin","Super user"],"address":{"City":"Moscow","Streen":"Bulvar"}}}
  ```
  
 # Редактирование JSON

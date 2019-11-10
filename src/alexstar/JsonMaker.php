@@ -52,7 +52,38 @@ class JsonMaker implements \ArrayAccess, \IteratorAggregate, \Countable
 			}
 		}
 	}
-
+	/*
+	 * set/get value by path
+	 * */
+    public function __invoke()
+    {
+        if(func_num_args()>0){
+            $path=func_get_arg(0);
+            if(func_num_args()>1) {
+                $newVal = func_get_arg(1);
+            }
+            $p = explode('/', trim($path,'/'));
+            $vars =& $this;
+            foreach ($p as $k => $v) {
+                if(is_numeric($v)){# array
+                    if(!isset($vars[$v]) && !isset($newVal)) return null;
+                    $vars=&$vars[$v];
+                }else{ # method
+                    if(!isset($vars->{$v}) && !isset($newVal)) return null;
+                    $vars =&$vars->{$v};
+                }
+            }
+            if(isset($newVal)) {
+                if (is_numeric($v)) {
+                    $vars[$v] = is_scalar($newVal)?$newVal:new self($newVal);
+                } else {
+                    $vars = is_scalar($newVal)?$newVal:new self($newVal);
+                }
+            }
+            return $vars;
+        }
+        return null;
+    }
 	# overloading
 	public function __set($name, $value)
 	{
