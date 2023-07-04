@@ -93,6 +93,4 @@ Result
 code count: 2
 ```
 
-PS: about the use of memory, I can not say anything, like everything is transmitted by links, but I'm not sure.
-
-Translated Google Translate
+Translated by Google Translate

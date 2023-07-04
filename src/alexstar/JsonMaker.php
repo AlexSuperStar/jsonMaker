@@ -22,11 +22,12 @@ class JsonMaker implements \ArrayAccess, \IteratorAggregate, \Countable
 	public function __construct($str = null)
 	{
 		if ($str) {
-			if(is_string($str)){
+			if (is_string($str)) {
 				$data = json_decode($str);
 				if (json_last_error()) throw new \Exception(json_last_error_msg());
 				$this->parse($data);
-			}else{
+			}
+			else {
 				$this->parse(json_decode(json_encode($str)));
 			}
 		}
@@ -39,51 +40,58 @@ class JsonMaker implements \ArrayAccess, \IteratorAggregate, \Countable
 				if (is_object($data)) {
 					if (is_scalar($v)) {
 						$this->$k = $v;
-					} else {
+					}
+					else {
 						$this->$k->parse($v);
 					}
-				} elseif (is_array($data)) {
+				}
+				elseif (is_array($data)) {
 					if (is_scalar($v)) {
 						$this[$k] = $v;
-					} else {
+					}
+					else {
 						$this[$k]->parse($v);
 					}
 				}
 			}
 		}
 	}
+
 	/*
 	 * set/get value by path
 	 * */
-    public function __invoke()
-    {
-        if(func_num_args()>0){
-            $path=func_get_arg(0);
-            if(func_num_args()>1) {
-                $newVal = func_get_arg(1);
-            }
-            $p = explode('/', trim($path,'/'));
-            $vars =& $this;
-            foreach ($p as $k => $v) {
-                if(is_numeric($v)){# array
-                    if(!isset($vars[$v]) && !isset($newVal)) return null;
-                    $vars=&$vars[$v];
-                }else{ # method
-                    if(!isset($vars->{$v}) && !isset($newVal)) return null;
-                    $vars =&$vars->{$v};
-                }
-            }
-            if(isset($newVal)) {
-                if (is_numeric($v)) {
-                    $vars[$v] = is_scalar($newVal)?$newVal:new self($newVal);
-                } else {
-                    $vars = is_scalar($newVal)?$newVal:new self($newVal);
-                }
-            }
-            return $vars;
-        }
-        return null;
-    }
+	public function __invoke()
+	{
+		if (func_num_args() > 0) {
+			$path = func_get_arg(0);
+			if (func_num_args() > 1) {
+				$newVal = func_get_arg(1);
+			}
+			$p = explode('/', trim($path, '/'));
+			$vars =& $this;
+			foreach ($p as $k => $v) {
+				if (is_numeric($v)) {# array
+					if (!isset($vars[$v]) && !isset($newVal)) return null;
+					$vars =& $vars[$v];
+				}
+				else { # method
+					if (!isset($vars->{$v}) && !isset($newVal)) return null;
+					$vars =& $vars->{$v};
+				}
+			}
+			if (isset($newVal)) {
+				if (is_numeric($v)) {
+					$vars[$v] = is_scalar($newVal) ? $newVal : new self($newVal);
+				}
+				else {
+					$vars = is_scalar($newVal) ? $newVal : new self($newVal);
+				}
+			}
+			return $vars;
+		}
+		return null;
+	}
+
 	# overloading
 	public function __set($name, $value)
 	{
@@ -95,7 +103,8 @@ class JsonMaker implements \ArrayAccess, \IteratorAggregate, \Countable
 	{
 		if (isset($this->$name)) {
 			return $this->$name;
-		} else {
+		}
+		else {
 			if (count($this->_data)) throw new \Exception('Property is array');
 			$this->$name = new self();
 			return $this->$name;
@@ -113,40 +122,42 @@ class JsonMaker implements \ArrayAccess, \IteratorAggregate, \Countable
 	}
 
 	# Countable
-	public function count()
+	public function count(): int
 	{
 		return count($this->_data);
 	}
 
 	# ArrayAccess
-	public function offsetSet($offset, $value)
+	public function offsetSet($offset, $value): void
 	{
 		if (count(get_object_vars($this)) > 1) throw new \Exception('Property is not array');
 		if (is_null($offset)) {
 			$this->_data[] = $value;
-		} else {
+		}
+		else {
 			$this->_data[$offset] = $value;
 		}
 	}
 
-	public function offsetExists($offset)
+	public function offsetExists($offset): bool
 	{
 		return isset($this->_data[$offset]);
 	}
 
-	public function offsetUnset($offset)
+	public function offsetUnset($offset): void
 	{
 		if (isset($this->_data[$offset])) {
 			unset($this->_data[$offset]);
 		}
 	}
 
-	public function &offsetGet($offset)
+	public function &offsetGet($offset): mixed
 	{
 		if (count(get_object_vars($this)) > 1) throw new \Exception('Property is not array');
 		if (isset($this->_data[$offset])) {
 			return $this->_data[$offset];
-		} else {
+		}
+		else {
 			$this->_data[$offset] = new self();
 			return $this->_data[$offset];
 		}
@@ -156,7 +167,8 @@ class JsonMaker implements \ArrayAccess, \IteratorAggregate, \Countable
 	{
 		if (count($this->_data)) {
 			return $this->processArray($this->_data);
-		} else {
+		}
+		else {
 			$data = get_object_vars($this);
 			unset($data['_data']);
 			return $this->processArray($data);
@@ -168,7 +180,8 @@ class JsonMaker implements \ArrayAccess, \IteratorAggregate, \Countable
 		foreach ($array as $key => $value) {
 			if (is_object($value)) {
 				$array[$key] = $value->toArray();
-			} else {
+			}
+			else {
 				$array[$key] = $value;
 			}
 		}
@@ -177,7 +190,7 @@ class JsonMaker implements \ArrayAccess, \IteratorAggregate, \Countable
 
 	public function toPrettyJson()
 	{
-		return json_encode($this->toArray(), JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
+		return json_encode($this->toArray(), JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 	}
 
 	public function __toString()
@@ -186,13 +199,13 @@ class JsonMaker implements \ArrayAccess, \IteratorAggregate, \Countable
 	}
 
 	# IteratorAggregate
-	function getIterator()
+	function getIterator(): \Iterator
 	{
 		if (count($this->_data)) {
 			return new \ArrayIterator($this->_data);
-		} else {
+		}
+		else {
 			return new \ArrayIterator($this);
 		}
 	}
 }
-?>
