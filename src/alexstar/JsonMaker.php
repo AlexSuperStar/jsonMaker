@@ -38,7 +38,7 @@ class JsonMaker implements \ArrayAccess, \IteratorAggregate, \Countable
 		if (is_object($data) || is_array($data)) {
 			foreach ($data as $k => $v) {
 				if (is_object($data)) {
-					if (is_scalar($v)) {
+					if (is_scalar($v) || is_null($v)) {
 						$this->$k = $v;
 					}
 					else {
@@ -46,7 +46,7 @@ class JsonMaker implements \ArrayAccess, \IteratorAggregate, \Countable
 					}
 				}
 				elseif (is_array($data)) {
-					if (is_scalar($v)) {
+					if (is_scalar($v) || is_null($v)) {
 						$this[$k] = $v;
 					}
 					else {
@@ -84,7 +84,7 @@ class JsonMaker implements \ArrayAccess, \IteratorAggregate, \Countable
 					$vars[$v] = is_scalar($newVal) ? $newVal : new self($newVal);
 				}
 				else {
-					$vars = is_scalar($newVal) ? $newVal : new self($newVal);
+					$vars = is_scalar($newVal) || is_null($newVal) ? $newVal : new self($newVal);
 				}
 			}
 			return $vars;
